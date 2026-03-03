@@ -47,7 +47,7 @@
         }
 
         .preview-box { 
-            width: 120px; height: 160px; border: 1px dashed #bbb; margin: 5px auto; 
+            width: 120px; height: 140px; border: 1px dashed #bbb; margin: 5px auto; 
             display: flex; align-items: center; justify-content: center; background: #fafafa; overflow: hidden;
         }
         .preview-box img { width: 100%; height: 100%; display: none; object-fit: cover; }
@@ -125,12 +125,12 @@
     </table>
 
     <div class="controls">
-        <button class="btn btn-add" type="button" onclick="addRow()">+ Tambah Baris</button>
-        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris</button>
+        <button class="btn btn-add" type="button" onclick="addRow()">+ Tambah Baris Tabel</button>
+        <button class="btn btn-remove" type="button" onclick="removeRow()">- Buang Baris Tabel</button>
     </div>
 
     <div class="action-area">
-        <button class="btn-print" type="button" onclick="window.print()">CETAK / SIMPAN PDF</button>
+        <button class="btn-print" type="button" onclick="window.print()">CETAK/SIMPAN LAPORAN LCS DALAM BENTUK PDF</button>
     </div>
 </div>
 
@@ -146,7 +146,7 @@
             <td data-label="Tanggal"><input type="date"></td>
             <td data-label="Judul"><input type="text" placeholder="..."></td>
             <td data-label="Like"><input type="file" accept="image/*" onchange="pv(this, 'l${count}')"><div class="preview-box"><img id="l${count}"></div></td>
-            <td data-label="Com"><input type="file" accept="image/*" onchange="pv(this, 'c${count}')"><div class="preview-box"><img id="c${count}"></div></td>
+            <td data-label="Comment"><input type="file" accept="image/*" onchange="pv(this, 'c${count}')"><div class="preview-box"><img id="c${count}"></div></td>
             <td data-label="Share"><input type="file" accept="image/*" onchange="pv(this, 's${count}')"><div class="preview-box"><img id="s${count}"></div></td>
         `;
         tableBody.appendChild(tr);
