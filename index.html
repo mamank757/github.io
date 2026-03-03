@@ -40,7 +40,7 @@
 
         /* --- PERUBAHAN UKURAN FONT SPESIFIK --- */
         .col-date input[type="date"] {
-            font-size: 12px;
+            font-size: 12px; text-align: right;
         }
         .col-konten textarea {
             font-size: 12px;
@@ -112,7 +112,7 @@
 
     <div class="info-section">
         <label>PERIODE</label> <span>:</span>
-        <select>
+        <select id="id_periode">
             <option>BULAN JANUARI</option><option>BULAN FEBRUARI</option><option>BULAN MARET</option>
             <option>BULAN APRIL</option><option>BULAN MEI</option><option>BULAN JUNI</option>
             <option>BULAN JULI</option><option>BULAN AGUSTUS</option><option>BULAN SEPTEMBER</option>
@@ -146,7 +146,7 @@
     </div>
 
     <div class="action-area">
-        <button class="btn-print" type="button" onclick="window.print()">CETAK/SIMPAN PDF</button>
+        <button class="btn-print" type="button" onclick="cetakLaporan()">CETAK/SIMPAN PDF</button>
     </div>
 </div>
 
@@ -157,7 +157,6 @@
     function addRow() {
         count++;
         const tr = document.createElement('tr');
-        // Memberikan class pada td agar CSS font-size bekerja
         tr.innerHTML = `
             <td data-label="No.">${count}.</td>
             <td data-label="Tanggal" class="col-date"><input type="date"></td>
@@ -200,6 +199,26 @@
             };
             reader.readAsDataURL(file);
         }
+    }
+
+    function cetakLaporan() {
+        const hariIni = new Date();
+        const dd = String(hariIni.getDate()).padStart(2, '0');
+        const mm = String(hariIni.getMonth() + 1).padStart(2, '0');
+        const yyyy = hariIni.getFullYear();
+        const tglFile = `${dd}-${mm}-${yyyy}`;
+
+        const nama = document.getElementById('id_nama').value || "Penyuluh";
+        const periode = document.getElementById('id_periode').value;
+        const judulAsli = document.title;
+
+        // Set nama file otomatis melalui title
+        document.title = `Laporan_LCS_${nama}_${periode}_${tglFile}`;
+        
+        window.print();
+
+        // Kembalikan judul tab setelah 1 detik
+        setTimeout(() => { document.title = judulAsli; }, 1000);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
