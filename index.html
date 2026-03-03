@@ -9,14 +9,13 @@
         body { font-family: 'Times New Roman', serif; margin: 0; padding: 10px; background: #f0f0f0; }
         
         .container { 
-            width: 100%; max-width: 1100px; margin: auto; background: white; 
+            width: 100%; max-width: 1200px; margin: auto; background: white; 
             padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
         }
 
         .header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 10px; }
         .header h2, .header h3 { margin: 2px 0; text-transform: uppercase; font-size: 1.1rem; font-weight: bold; }
 
-        /* Identitas  */
         .info-section { 
             display: grid; 
             grid-template-columns: 150px 20px 1fr; 
@@ -24,69 +23,40 @@
             margin-bottom: 15px; 
             max-width: 600px; 
         }
-        .info-section label { font-weight: bold; font-size: 14px; display: flex; align-items: center; }
-        .info-section span { font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .info-section label { font-weight: bold; font-size: 14px; }
         
         input[type="text"], input[type="date"], select { 
-            padding: 4px 10px; border: 1px solid #000000; border-radius: 4px; width: 100%; font-family: inherit;
+            padding: 4px 10px; border: 1px solid #000; border-radius: 4px; width: 100%; font-family: inherit;
         }
 
-        /* TABEL STRUKTUR  */
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th, td { border: 1px solid #000; padding: 6px; text-align: center; vertical-align: middle; }
-        th { background: #f2f2f2; font-size: 13px; text-transform: uppercase; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: center; vertical-align: middle; }
+        th { background: #f2f2f2; font-size: 11px; text-transform: uppercase; }
 
-        .col-no { width: 45px; }
-        .col-data { width: calc((100% - 45px) / 5); }
-
-        /* TEKNIK MENGHILANGKAN TEKS "TIDAK ADA FILE" */
+        /* Pengaturan File Input */
         input[type="file"] {
-            color: transparent; /* Membuat teks di sebelah tombol transparan */
-            width: 90px; /* Membatasi lebar agar hanya tombol yang terlihat */
-            overflow: hidden;
-            cursor: pointer;
+            font-size: 10px;
+            width: 100%;
+            margin-bottom: 5px;
         }
 
-       /* Ukuran Bingkai Foto */
-.preview-box { 
-    width: 110px; 
-    height: 210px; 
-    border: 1px dashed #bbb; 
-    margin: 5px auto; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background: #fafafa; 
-    overflow: hidden;
-}
-
-/* Memastikan Foto Mengisi Bingkai Tanpa Distorsi */
-.preview-box img { 
-    width: 90%; 
-    height: 90%; 
-    display: none; 
-    object-fit: contain; /* Gunakan 'contain' agar foto tidak terpotong, atau 'cover' jika ingin penuh */
-    background: white;
-}
-
-/* Penyesuaian Kolom Tabel agar Muat 120px */
-th, td { 
-    border: 1px solid #000; 
-    padding: 6px; 
-    text-align: center; 
-    vertical-align: middle; 
-    min-width: 120px; /* Memberi ruang untuk box 110px */
-}
-
-        /* Responsive Card HP */
-        @media screen and (max-width: 768px) {
-            .info-section { grid-template-columns: 110px 15px 1fr; width: 100%; }
-            table, thead, tbody, th, td, tr { display: block; }
-            table { table-layout: auto; }
-            thead { display: none; }
-            tr { margin-bottom: 25px; border: 2px solid #2c3e50; border-radius: 10px; padding: 10px; background: #fff; }
-            td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 45%; text-align: left; min-height: 45px; display: flex; align-items: center; width: 100% !important; }
-            td:before { position: absolute; left: 10px; width: 40%; font-weight: bold; font-size: 10px; content: attr(data-label); color: #2c3e50; text-transform: uppercase; }
+        /* UKURAN FOTO 120x210 PX */
+        .preview-box { 
+            width: 120px; 
+            height: 210px; 
+            border: 1px dashed #bbb; 
+            margin: 5px auto; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: #fafafa; 
+            overflow: hidden;
+        }
+        .preview-box img { 
+            width: 100%; 
+            height: 100%; 
+            display: none; 
+            object-fit: cover; /* Foto memenuhi box 120x210 */
         }
 
         .controls { margin-top: 15px; display: flex; gap: 10px; }
@@ -94,74 +64,60 @@ th, td {
         .btn-add { background: #27ae60; flex: 1; }
         .btn-remove { background: #e74c3c; flex: 1; }
         .action-area { text-align: center; margin-top: 30px; }
-        .btn-print { background: #2c3e50; width: 100%; padding: 15px; font-size: 16px; color: white; cursor: pointer; border-radius: 6px; border: none; font-weight: bold; }
+        .btn-print { background: #2c3e50; width: 100%; padding: 15px; font-size: 16px; color: white; cursor: pointer; border-radius: 6px; font-weight: bold; }
 
         @media print {
-            @page { size: A4; margin: 3cm; }
+            @page { size: A4 landscape; margin: 1cm; } /* Landscape lebih cocok untuk ukuran foto tinggi */
             .controls, .action-area, input[type="file"] { display: none !important; }
-            body { background: white; padding: 0; margin: 0; }
-            .container { box-shadow: none; border: none; width: 100%; padding: 0; }
-            input, select { border: none !important; background: transparent !important; padding: 0 !important; appearance: none !important; }
-            table { display: table !important; table-layout: fixed !important; }
-            thead { display: table-header-group !important; }
-            tr { display: table-row !important; border: 1px solid #000 !important; page-break-inside: avoid; }
-            td { display: table-cell !important; border: 1px solid #000 !important; }
-            .preview-box { border: none !important; width: 120px !important; height: 210px !important; }
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
+            .preview-box { border: 1px solid #eee !important; }
         }
     </style>
 </head>
-
 <body>
 
 <div class="container">
     <div class="header">
         <h2>LAPORAN PENDERASAN INFORMASI DAN PEMBANGUNAN PERTANIAN</h2>
-        <h3>PENYULUH PERTANIAN</h3>
-        <h3>TAHUN 2026</h3>
+        <h3>PENYULUH PERTANIAN - TAHUN 2026</h3>
     </div>
 
     <div class="info-section">
         <label>PERIODE</label> <span>:</span>
         <select>
-            <option>BULAN JANUARI</option><option>BULAN FEBRUARI</option><option>BULAN MARET</option>
-            <option>BULAN APRIL</option><option>BULAN MEI</option><option>BULAN JUNI</option>
-            <option>BULAN JULI</option><option>BULAN AGUSTUS</option><option>BULAN SEPTEMBER</option>
-            <option>BULAN OKTOBER</option><option>BULAN NOVEMBER</option><option>BULAN DESEMBER</option>
+            <option>JANUARI</option><option>FEBRUARI</option><option>MARET</option>
+            <option>APRIL</option><option>MEI</option><option>JUNI</option>
         </select>
-        <label>NAMA PENYULUH</label> <span>:</span> <input type="text" placeholder="...">
-        <label>NIP</label> <span>:</span> <input type="text" placeholder="...">
-        <label>WILBIN/WKPP</label> <span>:</span> <input type="text" placeholder="...">
+        <label>NAMA</label> <span>:</span> <input type="text">
+        <label>NIP</label> <span>:</span> <input type="text">
     </div>
 
     <table>
         <thead>
             <tr>
-                <th rowspan="2" class="col-no">No. </th>
-                <th rowspan="2" class="col-data">TANGGAL </th>
-                <th rowspan="2" class="col-data">JUDUL KONTEN </th>
-                <th colspan="3">EVIDEN </th>
-            </tr>
-            <tr>
-                <th>LIKE</th>
-                <th>COMMENT</th>
-                <th>SHARE</th>
+                <th width="40px">No</th>
+                <th width="120px">TANGGAL</th>
+                <th>JUDUL KONTEN</th>
+                <th>LIKE (120x210)</th>
+                <th>COMMENT (120x210)</th>
+                <th>SHARE (120x210)</th>
             </tr>
         </thead>
         <tbody id="tableBody"></tbody>
     </table>
 
     <div class="controls">
-        <button class="btn btn-add" type="button" onclick="addRow()">+ Tambah Baris</button>
-        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris</button>
+        <button class="btn btn-add" onclick="addRow()">+ Tambah Baris</button>
+        <button class="btn btn-remove" onclick="removeRow()">- Hapus Baris</button>
     </div>
 
     <div class="action-area">
-        <button class="btn-print" type="button" onclick="window.print()">CETAK / SIMPAN PDF</button>
+        <button class="btn-print" onclick="window.print()">CETAK / SIMPAN PDF</button>
     </div>
 </div>
 
 <script>
-
     let count = 0;
     const tableBody = document.getElementById('tableBody');
 
@@ -169,19 +125,27 @@ th, td {
         count++;
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td data-label="No.">${count}.</td>
-            <td data-label="Tanggal"><input type="date"></td>
-            <td data-label="Judul"><input type="text" placeholder="..."></td>
-            <td data-label="Like"><input type="file" accept="image/*" onchange="pv(this, 'l${count}')"><div class="preview-box"><img id="l${count}"></div></td>
-            <td data-label="Com"><input type="file" accept="image/*" onchange="pv(this, 'c${count}')"><div class="preview-box"><img id="c${count}"></div></td>
-            <td data-label="Share"><input type="file" accept="image/*" onchange="pv(this, 's${count}')"><div class="preview-box"><img id="s${count}"></div></td>
+            <td>${count}</td>
+            <td><input type="date"></td>
+            <td><input type="text" placeholder="..."></td>
+            <td>
+                <input type="file" accept="image/*" onchange="pv(this, 'l${count}')">
+                <div class="preview-box"><img id="l${count}"></div>
+            </td>
+            <td>
+                <input type="file" accept="image/*" onchange="pv(this, 'c${count}')">
+                <div class="preview-box"><img id="c${count}"></div>
+            </td>
+            <td>
+                <input type="file" accept="image/*" onchange="pv(this, 's${count}')">
+                <div class="preview-box"><img id="s${count}"></div>
+            </td>
         `;
         tableBody.appendChild(tr);
     }
 
     function removeRow() {
-        if (count > 3) { tableBody.removeChild(tableBody.lastChild); count--; }
-        else { alert("Minimal harus ada 3 baris laporan."); }
+        if (count > 1) { tableBody.removeChild(tableBody.lastChild); count--; }
     }
 
     function pv(input, id) {
@@ -197,11 +161,7 @@ th, td {
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        addRow(); addRow(); 
-        
-    });
-
+    window.onload = () => { addRow(); addRow(); };
 </script>
 </body>
 </html>
