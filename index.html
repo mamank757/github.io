@@ -144,7 +144,7 @@
         tr.innerHTML = `
             <td data-label="No.">${count}.</td>
             <td data-label="Tanggal"><input type="date"></td>
-            <td data-label="Judul"><textarea id="judul_${i}" class="input-judul" placeholder="Isi Judul Konten" oninput="simpanTeks('judul_${i}')"></textarea>
+            <td data-label="Judul"><input type="text" placeholder="..."></td>
             <td data-label="Like"><input type="file" accept="image/*" onchange="pv(this, 'l${count}')"><div class="preview-box"><img id="l${count}"></div></td>
             <td data-label="Comment"><input type="file" accept="image/*" onchange="pv(this, 'c${count}')"><div class="preview-box"><img id="c${count}"></div></td>
             <td data-label="Share"><input type="file" accept="image/*" onchange="pv(this, 's${count}')"><div class="preview-box"><img id="s${count}"></div></td>
