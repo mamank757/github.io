@@ -39,10 +39,9 @@
         .col-no { width: 30px; }
         .col-data { width: calc((100% - 30px) / 5); }
 
-        /* TEKNIK MENGHILANGKAN TEKS "TIDAK ADA FILE" */
         input[type="file"] {
-            color: transparent; /* Membuat teks di sebelah tombol transparan */
-            width: 90px; /* Membatasi lebar agar hanya tombol yang terlihat */
+            color: transparent;
+            width: 90px;
             overflow: hidden;
             cursor: pointer;
         }
@@ -136,7 +135,6 @@
 </div>
 
 <script>
-
     let count = 0;
     const tableBody = document.getElementById('tableBody');
 
@@ -155,8 +153,14 @@
     }
 
     function removeRow() {
-        if (count > 2) { tableBody.removeChild(tableBody.lastChild); count--; }
-        else { alert("Minimal harus ada 3 baris laporan."); }
+        // Logika: Jika jumlah baris (count) lebih besar dari 2, maka boleh hapus.
+        // Jika sisa 2, maka muncul peringatan.
+        if (count > 2) { 
+            tableBody.removeChild(tableBody.lastChild); 
+            count--; 
+        } else { 
+            alert("Minimal harus ada 2 baris laporan."); 
+        }
     }
 
     function pv(input, id) {
@@ -172,11 +176,12 @@
         }
     }
 
+    // Munculkan 3 baris saat pertama kali dibuka
     document.addEventListener('DOMContentLoaded', () => {
-        addRow(); addRow(); 
-        
+        addRow(); 
+        addRow(); 
+        addRow();
     });
-
 </script>
 </body>
 </html>
