@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LCS</title>
+    <title>LCS, Nama Penyuluh, Tanggal Input</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Times New Roman', serif; margin: 0; padding: 10px; background: #f0f0f0; }
@@ -153,6 +153,19 @@
 <script>
     let count = 0;
     const tableBody = document.getElementById('tableBody');
+    const inputNama = document.getElementById('id_nama');
+
+    // Fungsi untuk mendapatkan tanggal hari ini dalam format DD-MM-YYYY
+    function getTglHariIni() {
+        const d = new Date();
+        return `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
+    }
+
+    // Update Judul Tab Secara Otomatis saat mengetik nama
+    inputNama.addEventListener('input', function() {
+        const namaVal = this.value || "Nama Penyuluh";
+        document.title = `LCS, ${namaVal}, ${getTglHariIni()}`;
+    });
 
     function addRow() {
         count++;
@@ -202,27 +215,16 @@
     }
 
     function cetakLaporan() {
-        const hariIni = new Date();
-        const dd = String(hariIni.getDate()).padStart(2, '0');
-        const mm = String(hariIni.getMonth() + 1).padStart(2, '0');
-        const yyyy = hariIni.getFullYear();
-        const tglFile = `${dd}-${mm}-${yyyy}`;
-
-        const nama = document.getElementById('id_nama').value || "Penyuluh";
-        const periode = document.getElementById('id_periode').value;
-        const judulAsli = document.title;
-
-        // Set nama file otomatis melalui title
-        document.title = `Laporan_LCS_${nama}_${periode}_${tglFile}`;
-        
+        // Memastikan judul sudah update sebelum cetak
+        const namaVal = inputNama.value || "Penyuluh";
+        document.title = `Laporan_LCS_${namaVal.replace(/\s+/g, '_')}_${getTglHariIni()}`;
         window.print();
-
-        // Kembalikan judul tab setelah 1 detik
-        setTimeout(() => { document.title = judulAsli; }, 1000);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         addRow(); addRow(); addRow();
+        // Set judul awal saat halaman dimuat
+        document.title = `LCS, Nama Penyuluh, ${getTglHariIni()}`;
     });
 </script>
 </body>
