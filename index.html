@@ -16,7 +16,6 @@
         .header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 10px; }
         .header h2, .header h3 { margin: 2px 0; text-transform: uppercase; font-size: 1.1rem; font-weight: bold; }
 
-        /* Identitas */
         .info-section { 
             display: grid; 
             grid-template-columns: 150px 20px 1fr; 
@@ -25,32 +24,30 @@
             max-width: 600px; 
         }
         .info-section label { font-weight: bold; font-size: 14px; display: flex; align-items: center; }
-        .info-section span { font-weight: bold; display: flex; align-items: center; justify-content: center; }
         
         input[type="text"], input[type="date"], select, textarea { 
             padding: 6px 10px; border: 1px solid #000000; border-radius: 4px; width: 100%; font-family: inherit; font-size: 14px;
         }
 
-        /* PERTAHANKAN TEXT WRAP PADA KONTEN */
         textarea {
             resize: none;
             display: block;
-            min-height: 120px;
+            min-height: 180px; /* Menyesuaikan tinggi preview box agar simetris */
             text-align: left;
             word-wrap: break-word;
             white-space: pre-wrap;
         }
 
-        /* TABEL STRUKTUR - FIX WIDTH */
+        /* TABEL STRUKTUR - FIXED LAYOUT */
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th, td { border: 1px solid #000; padding: 6px; text-align: center; vertical-align: middle; overflow: hidden; }
+        th, td { border: 1px solid #000; padding: 6px; text-align: center; vertical-align: middle; }
         th { background: #f2f2f2; font-size: 12px; text-transform: uppercase; font-weight: bold; }
 
-        /* PENGATURAN LEBAR KOLOM YANG TETAP */
+        /* PENGATURAN LEBAR KOLOM SETARA */
         .col-no { width: 35px; }
-        .col-date { width: 130px; }
-        .col-konten { width: 140px; } /* Kolom Konten Dikunci di 140px */
-        .col-eviden { width: 140px; } /* Kolom Like, Com, Share */
+        .col-date { width: 15%; }
+        .col-konten { width: 20%; } /* Lebar Konten dibuat setara dengan eviden */
+        .col-eviden { width: 20%; } /* Like, Comment, Share masing-masing 20% */
 
         input[type="file"] {
             color: transparent;
@@ -64,16 +61,13 @@
         }
         .preview-box img { width: 100%; height: 100%; display: none; object-fit: cover; }
 
-        /* Responsive HP */
         @media screen and (max-width: 768px) {
-            .info-section { grid-template-columns: 120px 15px 1fr; width: 100%; }
             table, thead, tbody, th, td, tr { display: block; }
             table { table-layout: auto; }
             thead { display: none; }
             tr { margin-bottom: 25px; border: 2px solid #2c3e50; border-radius: 10px; padding: 10px; background: #fff; }
             td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 45% !important; text-align: left !important; min-height: 45px; display: flex; align-items: center; width: 100% !important; }
             td:before { position: absolute; left: 10px; width: 40%; font-weight: bold; font-size: 10px; content: attr(data-label); color: #2c3e50; text-transform: uppercase; }
-            .col-konten { width: 100%; }
         }
 
         .controls { margin-top: 15px; display: flex; gap: 10px; }
@@ -94,7 +88,6 @@
             thead { display: table-header-group !important; }
             tr { display: table-row !important; border: 1px solid #000 !important; page-break-inside: avoid; }
             td { display: table-cell !important; border: 1px solid #000 !important; }
-            .col-konten { width: 300px !important; } /* Memastikan lebar tetap saat print */
             .preview-box { border: none !important; width: 120px !important; height: 180px !important; }
         }
     </style>
@@ -117,9 +110,9 @@
             <option>BULAN JULI</option><option>BULAN AGUSTUS</option><option>BULAN SEPTEMBER</option>
             <option>BULAN OKTOBER</option><option>BULAN NOVEMBER</option><option>BULAN DESEMBER</option>
         </select>
-        <label>NAMA PENYULUH</label> <span>:</span> <input type="text" placeholder="Masukkan Nama...">
-        <label>NIP.</label> <span>:</span> <input type="text" placeholder="Masukkan NIP...">
-        <label>WILBIN/WKPP</label> <span>:</span> <input type="text" placeholder="Masukkan Wilayah...">
+        <label>NAMA PENYULUH</label> <span>:</span> <input type="text" placeholder="...">
+        <label>NIP.</label> <span>:</span> <input type="text" placeholder="...">
+        <label>WILBIN/WKPP</label> <span>:</span> <input type="text" placeholder="...">
     </div>
 
     <table>
@@ -160,7 +153,7 @@
             <td data-label="No.">${count}.</td>
             <td data-label="Tanggal"><input type="date"></td>
             <td data-label="Konten">
-                <textarea placeholder="Teks konten..."></textarea>
+                <textarea placeholder="Tuliskan judul konten..."></textarea>
             </td>
             <td data-label="Like">
                 <input type="file" accept="image/*" onchange="pv(this, 'l${count}')">
