@@ -20,15 +20,24 @@
         .info-section { 
             display: grid; 
             grid-template-columns: 150px 20px 1fr; 
-            gap: 2px 0; 
+            gap: 5px 0; 
             margin-bottom: 15px; 
             max-width: 600px; 
         }
         .info-section label { font-weight: bold; font-size: 14px; display: flex; align-items: center; }
         .info-section span { font-weight: bold; display: flex; align-items: center; justify-content: center; }
         
-        input[type="text"], input[type="date"], select { 
-            padding: 4px 10px; border: 1px solid #000000; border-radius: 4px; width: 100%; font-family: inherit;
+        input[type="text"], input[type="date"], select, textarea { 
+            padding: 6px 10px; border: 1px solid #000000; border-radius: 4px; width: 100%; font-family: inherit; font-size: 14px;
+        }
+
+        /* TEXTAREA UNTUK TEXT WRAP */
+        textarea {
+            resize: none;
+            display: block;
+            overflow: hidden;
+            min-height: 100px;
+            text-align: left;
         }
 
         /* TABEL STRUKTUR  */
@@ -36,8 +45,9 @@
         th, td { border: 1px solid #000; padding: 6px; text-align: center; vertical-align: middle; }
         th { background: #f2f2f2; font-size: 13px; text-transform: uppercase; font-weight: bold; }
 
-        .col-no { width: 30px; }
-        .col-data { width: calc((100% - 30px) / 5); }
+        .col-no { width: 40px; }
+        .col-date { width: 130px; }
+        .col-konten { width: 250px; } /* Lebar kolom konten */
 
         input[type="file"] {
             color: transparent;
@@ -47,7 +57,7 @@
         }
 
         .preview-box { 
-            width: 120px; height: 140px; border: 1px dashed #bbb; margin: 5px auto; 
+            width: 120px; height: 160px; border: 1px dashed #bbb; margin: 5px auto; 
             display: flex; align-items: center; justify-content: center; background: #fafafa; overflow: hidden;
         }
         .preview-box img { width: 100%; height: 100%; display: none; object-fit: cover; }
@@ -59,28 +69,32 @@
             table { table-layout: auto; }
             thead { display: none; }
             tr { margin-bottom: 25px; border: 2px solid #2c3e50; border-radius: 10px; padding: 10px; background: #fff; }
-            td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 45%; text-align: left; min-height: 45px; display: flex; align-items: center; width: 100% !important; }
+            td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 45% !important; text-align: left !important; min-height: 45px; display: flex; align-items: center; width: 100% !important; }
             td:before { position: absolute; left: 10px; width: 40%; font-weight: bold; font-size: 10px; content: attr(data-label); color: #2c3e50; text-transform: uppercase; }
+            textarea { min-height: 60px; }
         }
 
         .controls { margin-top: 15px; display: flex; gap: 10px; }
-        .btn { padding: 10px 15px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; color: white; }
+        .btn { padding: 12px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; color: white; transition: 0.3s; }
         .btn-add { background: #27ae60; flex: 1; }
+        .btn-add:hover { background: #219150; }
         .btn-remove { background: #e74c3c; flex: 1; }
+        .btn-remove:hover { background: #c0392b; }
+        
         .action-area { text-align: center; margin-top: 30px; }
         .btn-print { background: #2c3e50; width: 100%; padding: 15px; font-size: 16px; color: white; cursor: pointer; border-radius: 6px; border: none; font-weight: bold; }
 
         @media print {
-            @page { size: A4; margin: 2cm; }
+            @page { size: A4; margin: 1.5cm; }
             .controls, .action-area, input[type="file"] { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { box-shadow: none; border: none; width: 100%; padding: 0; }
-            input, select { border: none !important; background: transparent !important; padding: 0 !important; appearance: none !important; }
+            input, select, textarea { border: none !important; background: transparent !important; padding: 0 !important; appearance: none !important; resize: none !important; }
             table { display: table !important; table-layout: fixed !important; }
             thead { display: table-header-group !important; }
             tr { display: table-row !important; border: 1px solid #000 !important; page-break-inside: avoid; }
             td { display: table-cell !important; border: 1px solid #000 !important; }
-            .preview-box { border: none !important; width: 120px !important; height: 190px !important; }
+            .preview-box { border: none !important; width: 120px !important; height: 180px !important; }
         }
     </style>
 </head>
@@ -102,17 +116,23 @@
             <option>BULAN JULI</option><option>BULAN AGUSTUS</option><option>BULAN SEPTEMBER</option>
             <option>BULAN OKTOBER</option><option>BULAN NOVEMBER</option><option>BULAN DESEMBER</option>
         </select>
-        <label>NAMA PENYULUH</label> <span>:</span> <td><input type="text" id="id_nama" class="style-nama" placeholder="Cth: ABDUL RAHMAN, SP" oninput="formatNama(this); simpanTeks('id_nama')"></td>
-        <label>NIP.</label> <span>:</span> <td><input type="text" id="id_nip" placeholder="Cth: 199009202020121001" maxlength="21" oninput="formatNIP(this); simpanTeks('id_nip')"></td>
-        <label>WILBIN/WKPP</label> <span>:</span> <td><input type="text" id="id_wilayah" placeholder="Cth: DESA MANURUNG" oninput="formatAlamat(this); simpanTeks('id_wilayah')"></td>
+        
+        <label>NAMA PENYULUH</label> <span>:</span> 
+        <input type="text" id="id_nama" placeholder="Cth: ABDUL RAHMAN, SP">
+        
+        <label>NIP.</label> <span>:</span> 
+        <input type="text" id="id_nip" placeholder="Cth: 199009202020121001" maxlength="21">
+        
+        <label>WILBIN/WKPP</label> <span>:</span> 
+        <input type="text" id="id_wilayah" placeholder="Cth: DESA MANURUNG">
     </div>
 
     <table>
         <thead>
             <tr>
                 <th rowspan="2" class="col-no">No. </th>
-                <th rowspan="2" class="col-data">TANGGAL </th>
-                <th rowspan="2" class="col-data"> KONTEN </th>
+                <th rowspan="2" class="col-date">TANGGAL </th>
+                <th rowspan="2" class="col-konten">KONTEN </th>
                 <th colspan="3">EVIDEN </th>
             </tr>
             <tr>
@@ -125,12 +145,12 @@
     </table>
 
     <div class="controls">
-        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris Tabel Jika Lebih</button>
-        <button class="btn btn-add" type="button" onclick="addRow()">+ Tambah Baris Tabel Jika Kurang</button>
+        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris (Min. 2)</button>
+        <button class="btn btn-add" type="button" onclick="addRow()">+ Tambah Baris</button>
     </div>
 
     <div class="action-area">
-        <button class="btn-print" type="button" onclick="window.print()">CETAK/SIMPAN LAPORAN LCS DALAM BENTUK PDF</button>
+        <button class="btn-print" type="button" onclick="window.print()">CETAK/SIMPAN PDF (A4)</button>
     </div>
 </div>
 
@@ -144,22 +164,31 @@
         tr.innerHTML = `
             <td data-label="No.">${count}.</td>
             <td data-label="Tanggal"><input type="date"></td>
-            <td data-label="Judul"><input type="text" placeholder="..."></td>
-            <td data-label="Like"><input type="file" accept="image/*" onchange="pv(this, 'l${count}')"><div class="preview-box"><img id="l${count}"></div></td>
-            <td data-label="Comment"><input type="file" accept="image/*" onchange="pv(this, 'c${count}')"><div class="preview-box"><img id="c${count}"></div></td>
-            <td data-label="Share"><input type="file" accept="image/*" onchange="pv(this, 's${count}')"><div class="preview-box"><img id="s${count}"></div></td>
+            <td data-label="Konten">
+                <textarea placeholder="Tuliskan judul atau uraian konten di sini..."></textarea>
+            </td>
+            <td data-label="Like">
+                <input type="file" accept="image/*" onchange="pv(this, 'l${count}')">
+                <div class="preview-box"><img id="l${count}"></div>
+            </td>
+            <td data-label="Comment">
+                <input type="file" accept="image/*" onchange="pv(this, 'c${count}')">
+                <div class="preview-box"><img id="c${count}"></div>
+            </td>
+            <td data-label="Share">
+                <input type="file" accept="image/*" onchange="pv(this, 's${count}')">
+                <div class="preview-box"><img id="s${count}"></div>
+            </td>
         `;
         tableBody.appendChild(tr);
     }
 
     function removeRow() {
-        // Logika: Jika jumlah baris (count) lebih besar dari 2, maka boleh hapus.
-        // Jika sisa 2, maka muncul peringatan.
         if (count > 2) { 
             tableBody.removeChild(tableBody.lastChild); 
             count--; 
         } else { 
-            alert("Minimal harus ada 2 baris laporan."); 
+            alert("Sesuai instruksi, minimal harus tersisa 2 baris laporan."); 
         }
     }
 
@@ -176,7 +205,7 @@
         }
     }
 
-    // Munculkan 3 baris saat pertama kali dibuka
+    // Inisialisasi: Munculkan 3 baris saat pertama kali dibuka
     document.addEventListener('DOMContentLoaded', () => {
         addRow(); 
         addRow(); 
