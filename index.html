@@ -68,7 +68,7 @@
             opacity: 0.8;
             transition: 0.3s;
         }
-        .btn-paste { background: #1447b5; }
+        .btn-paste { background: #07168a; }
         .btn-clear { background: #f00505; }
         .btn-action:hover { opacity: 1; }
 
@@ -212,7 +212,7 @@
             const textarea = btn.closest('.textarea-container').querySelector('textarea');
             textarea.value = text;
         } catch (err) {
-            alert('Gagal mengakses clipboard.');
+            alert('Anda belum menyalin judul konten.');
         }
     }
 
@@ -229,7 +229,7 @@
             <td data-label="Tanggal" class="col-date"><input type="date"></td>
             <td data-label="Judul Konten" class="col-konten">
                 <div class="textarea-container">
-                    <textarea placeholder="Tulis judul konten atau tekan tombol paste jika judul konten sudah disalin"></textarea>
+                    <textarea placeholder="Tulis judul konten atau tekan tombol paste jika judul konten sudah disalin...."></textarea>
                     <div class="textarea-actions">
                         <button type="button" class="btn-action btn-clear" onclick="clearText(this)">🗑️ Hapus</button>
                         <button type="button" class="btn-action btn-paste" onclick="pasteText(this)">📋 Paste</button>
