@@ -41,31 +41,34 @@
             text-align: left;
             word-wrap: break-word;
             white-space: pre-wrap;
-            padding-bottom: 35px !important;
+            padding-bottom: 40px !important;
         }
 
-        .btn-paste {
+        /* Grouping buttons inside textarea */
+        .textarea-actions {
             position: absolute;
             bottom: 5px;
             right: 5px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-action {
             padding: 4px 8px;
-            background: #3498db;
             color: white;
             border: none;
             border-radius: 3px;
             font-size: 10px;
             cursor: pointer;
             font-weight: bold;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: 0.3s;
         }
-        .btn-paste:hover { opacity: 1; background: #2980b9; }
+        .btn-paste { background: #3498db; }
+        .btn-clear { background: #e67e22; }
+        .btn-action:hover { opacity: 1; }
 
-        .col-date input[type="date"] { 
-            font-size: 12px; 
-            text-align: center; 
-        }
-        
+        .col-date input[type="date"] { font-size: 12px; text-align: center; }
         .col-konten textarea { font-size: 12px; padding: 8px; }
 
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -85,12 +88,7 @@
         }
         .preview-box img { width: 100%; height: 100%; display: none; object-fit: cover; }
 
-        /* Styling untuk visitor counter agar rapi di halaman web */
-        .visitor-counter-wrapper {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 12px;
-        }
+        .visitor-counter-wrapper { text-align: center; margin-bottom: 10px; font-size: 12px; }
 
         @media screen and (max-width: 768px) {
             .info-section { grid-template-columns: 1fr; gap: 5px; }
@@ -113,8 +111,7 @@
 
         @media print {
             @page { size: A4; margin: 1cm; }
-            /* Menyembunyikan elemen yang tidak perlu dicetak termasuk counter */
-            .controls, .action-area, input[type="file"], .btn-paste, .visitor-counter-wrapper { display: none !important; }
+            .controls, .action-area, input[type="file"], .textarea-actions, .visitor-counter-wrapper { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { box-shadow: none; border: none; width: 100%; padding: 0; max-width: 100%; }
             .info-section { grid-template-columns: 180px 20px 1fr; }
@@ -208,11 +205,16 @@
     async function pasteText(btn) {
         try {
             const text = await navigator.clipboard.readText();
-            const textarea = btn.parentElement.querySelector('textarea');
+            const textarea = btn.closest('.textarea-container').querySelector('textarea');
             textarea.value = text;
         } catch (err) {
-            alert('Gagal mengakses clipboard. Pastikan Anda mengizinkan akses!');
+            alert('Gagal mengakses clipboard.');
         }
+    }
+
+    function clearText(btn) {
+        const textarea = btn.closest('.textarea-container').querySelector('textarea');
+        textarea.value = "";
     }
 
     function addRow(showAlert = false) {
@@ -223,8 +225,11 @@
             <td data-label="Tanggal" class="col-date"><input type="date"></td>
             <td data-label="Judul Konten" class="col-konten">
                 <div class="textarea-container">
-                    <textarea placeholder="Tulis judul konten atau tekan tombol paste di bawah jika sudah disalin"></textarea>
-                    <button type="button" class="btn-paste" onclick="pasteText(this)">📋 PASTE judul konten yg anda salin</button>
+                    <textarea placeholder="Tulis judul konten..."></textarea>
+                    <div class="textarea-actions">
+                        <button type="button" class="btn-action btn-clear" onclick="clearText(this)">🗑️ Hapus</button>
+                        <button type="button" class="btn-action btn-paste" onclick="pasteText(this)">📋 Paste</button>
+                    </div>
                 </div>
             </td>
             <td data-label="Like">
@@ -249,7 +254,7 @@
 
     function removeRow() {
         if (count > 2) { 
-            const yakin = confirm("Apakah Anda yakin ingin menghapus baris terakhir? Data yang sudah diisi di baris tersebut akan hilang.");
+            const yakin = confirm("Hapus baris terakhir?");
             if (yakin) {
                 tableBody.removeChild(tableBody.lastChild); 
                 count--; 
