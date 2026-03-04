@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -176,17 +175,6 @@
     <div class="action-area">
         <button class="btn-print" type="button" onclick="cetakLaporan()">SIMPAN/DOWNLOAD PDF</button>
     </div>
-    <div class="visitor-counter">
-        <div>
-            <label>Pengguna Hari Ini</label>
-            <span id="today-count">0</span>
-        </div>
-        <div>
-            <label>Total Pengguna</label>
-            <span id="total-count">0</span>
-        </div>
-    </div>
-
 </div>
 
 <script>
@@ -222,8 +210,8 @@
             <td data-label="Tanggal" class="col-date"><input type="date"></td>
             <td data-label="Judul Konten" class="col-konten">
                 <div class="textarea-container">
-                    <textarea placeholder="Tulis judul konten atau anda bisa paste setelah menyalin judul konten"></textarea>
-                    <button type="button" class="btn-paste" onclick="pasteText(this)">📋 PASTE judul konten yg anda salin di sini</button>
+                    <textarea placeholder="Tuliskan judul konten..."></textarea>
+                    <button type="button" class="btn-paste" onclick="pasteText(this)">📋 PASTE judul konten yg anda salin</button>
                 </div>
             </td>
             <td data-label="Like">
