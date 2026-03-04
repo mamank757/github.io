@@ -61,7 +61,6 @@
         }
         .btn-paste:hover { opacity: 1; background: #2980b9; }
 
-        /* PERUBAHAN DISINI: Rata Tengah untuk Tanggal */
         .col-date input[type="date"] { 
             font-size: 12px; 
             text-align: center; 
@@ -86,6 +85,21 @@
         }
         .preview-box img { width: 100%; height: 100%; display: none; object-fit: cover; }
 
+        /* Visitor Counter Styling */
+        .visitor-counter {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .visitor-counter div { flex: 1; }
+        .visitor-counter span { display: block; font-size: 20px; font-weight: bold; color: #2c3e50; }
+        .visitor-counter label { font-size: 12px; color: #666; text-transform: uppercase; }
+
         @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr { display: block; }
             table { table-layout: auto; }
@@ -105,7 +119,8 @@
 
         @media print {
             @page { size: A4; margin: 1cm; }
-            .controls, .action-area, input[type="file"], .btn-paste { display: none !important; }
+            /* Sembunyikan kontrol, tombol, paste, dan visitor counter saat cetak */
+            .controls, .action-area, input[type="file"], .btn-paste, .visitor-counter { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { box-shadow: none; border: none; width: 100%; padding: 0; max-width: 100%; }
             input, select, textarea { border: none !important; background: transparent !important; padding: 0 !important; appearance: none !important; resize: none !important; }
@@ -163,6 +178,17 @@
         <button class="btn btn-add" type="button" onclick="addRow(true)">+ Tambah Baris Tabel</button>
     </div>
 
+    <div class="visitor-counter">
+        <div>
+            <label>Pengunjung Hari Ini</label>
+            <span id="today-count">0</span>
+        </div>
+        <div>
+            <label>Total Pengunjung</label>
+            <span id="total-count">0</span>
+        </div>
+    </div>
+
     <div class="action-area">
         <button class="btn-print" type="button" onclick="cetakLaporan()">SIMPAN/DOWNLOAD PDF</button>
     </div>
@@ -172,6 +198,31 @@
     let count = 0;
     const tableBody = document.getElementById('tableBody');
     const inputNama = document.getElementById('id_nama');
+
+    // Fungsi Hitung Pengunjung
+    function updateVisitorCounter() {
+        const today = new Date().toLocaleDateString();
+        let totalStats = JSON.parse(localStorage.getItem('visitorStats')) || { total: 0, lastDate: '', todayCount: 0 };
+
+        // Tambah total kunjungan keseluruhan
+        totalStats.total++;
+
+        // Cek apakah hari ini sama dengan hari kunjungan terakhir
+        if (totalStats.lastDate === today) {
+            totalStats.todayCount++;
+        } else {
+            // Jika hari baru, reset hitungan hari ini ke 1
+            totalStats.todayCount = 1;
+            totalStats.lastDate = today;
+        }
+
+        // Simpan kembali ke localStorage
+        localStorage.setItem('visitorStats', JSON.stringify(totalStats));
+
+        // Tampilkan di UI
+        document.getElementById('today-count').innerText = totalStats.todayCount;
+        document.getElementById('total-count').innerText = totalStats.total;
+    }
 
     function getTglHariIni() {
         const d = new Date();
@@ -258,6 +309,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         addRow(); addRow(); addRow();
+        updateVisitorCounter(); // Jalankan fungsi hitung saat halaman dibuka
         document.title = `LCS, Nama Penyuluh, ${getTglHariIni()}`;
     });
 </script>
