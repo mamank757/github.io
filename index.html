@@ -280,6 +280,31 @@
         addRow(); addRow(); addRow();
         document.title = `LCS, Nama Penyuluh, ${getTglHariIni()}`;
     });
+<script>
+    function updateVisitorCounter() {
+        // Ambil data dari penyimpanan browser (localStorage)
+        let totalCount = localStorage.getItem('total-visitors') || 0;
+        let todayCount = sessionStorage.getItem('today-visitors') || 0;
+
+        // Tambah hitungan jika ini sesi baru
+        if (!sessionStorage.getItem('visited')) {
+            totalCount = parseInt(totalCount) + 1;
+            todayCount = parseInt(todayCount) + 1;
+            
+            // Simpan kembali
+            localStorage.setItem('total-visitors', totalCount);
+            sessionStorage.setItem('today-visitors', todayCount);
+            sessionStorage.setItem('visited', 'true');
+        }
+
+        // Tampilkan ke layar
+        document.getElementById('total-count').innerText = totalCount;
+        document.getElementById('today-count').innerText = todayCount;
+    }
+
+    // Jalankan fungsi saat halaman dimuat
+    window.onload = updateVisitorCounter;
 </script>
+    
 </body>
 </html>
