@@ -16,13 +16,12 @@
         .header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 10px; }
         .header h2, .header h3 { margin: 2px 0; text-transform: uppercase; font-size: 1.1rem; font-weight: bold; }
 
-        /* PERUBAHAN DI SINI: Lebar kolom pertama diubah dari 150px ke 200px */
         .info-section { 
             display: grid; 
             grid-template-columns: 200px 20px 1fr; 
             gap: 8px 0; 
             margin-bottom: 20px; 
-            max-width: 700px; /* Sedikit diperlebar agar seimbang */
+            max-width: 700px; 
         }
         .info-section label { font-weight: bold; font-size: 14px; display: flex; align-items: center; }
         
@@ -86,6 +85,13 @@
         }
         .preview-box img { width: 100%; height: 100%; display: none; object-fit: cover; }
 
+        /* Styling untuk visitor counter agar rapi di halaman web */
+        .visitor-counter-wrapper {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
         @media screen and (max-width: 768px) {
             .info-section { grid-template-columns: 1fr; gap: 5px; }
             .info-section span { display: none; }
@@ -107,10 +113,11 @@
 
         @media print {
             @page { size: A4; margin: 1cm; }
-            .controls, .action-area, input[type="file"], .btn-paste { display: none !important; }
+            /* Menyembunyikan elemen yang tidak perlu dicetak termasuk counter */
+            .controls, .action-area, input[type="file"], .btn-paste, .visitor-counter-wrapper { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { box-shadow: none; border: none; width: 100%; padding: 0; max-width: 100%; }
-            .info-section { grid-template-columns: 180px 20px 1fr; } /* Penyesuaian saat cetak */
+            .info-section { grid-template-columns: 180px 20px 1fr; }
             input, select, textarea { border: none !important; background: transparent !important; padding: 0 !important; appearance: none !important; resize: none !important; }
             table { display: table !important; table-layout: fixed !important; width: 100% !important; }
             thead { display: table-header-group !important; }
@@ -123,6 +130,12 @@
 </head>
 
 <body>
+
+<div class="visitor-counter-wrapper">
+    <a href='http://www.freevisitorcounters.com'>Counter</a> 
+    <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=a89e5d2c48fde512d9411d388c694afb903a141d'></script>
+    <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1512047/t/1"></script>
+</div>
 
 <div class="container">
     <div class="header">
