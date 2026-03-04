@@ -29,7 +29,6 @@
             padding: 6px 10px; border: 1px solid #000000; border-radius: 4px; width: 100%; font-family: inherit; font-size: 14px;
         }
 
-        /* --- STYLE BARU UNTUK AREA PASTE DALAM --- */
         .textarea-container {
             position: relative;
             width: 100%;
@@ -42,7 +41,7 @@
             text-align: left;
             word-wrap: break-word;
             white-space: pre-wrap;
-            padding-bottom: 35px !important; /* Beri ruang agar teks tidak tertutup tombol */
+            padding-bottom: 35px !important;
         }
 
         .btn-paste {
@@ -156,7 +155,7 @@
 
     <div class="controls">
         <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris Tabel</button>
-        <button class="btn btn-add" type="button" onclick="addRow()">+ Tambah Baris Tabel</button>
+        <button class="btn btn-add" type="button" onclick="addRow(true)">+ Tambah Baris Tabel</button>
     </div>
 
     <div class="action-area">
@@ -179,11 +178,9 @@
         document.title = `LCS, ${namaVal}, ${getTglHariIni()}`;
     });
 
-    // FUNGSI PASTE KHUSUS
     async function pasteText(btn) {
         try {
             const text = await navigator.clipboard.readText();
-            // Mengambil textarea yang berada dalam kontainer yang sama
             const textarea = btn.parentElement.querySelector('textarea');
             textarea.value = text;
         } catch (err) {
@@ -191,7 +188,8 @@
         }
     }
 
-    function addRow() {
+    // MODIFIKASI: Menambahkan parameter showAlert
+    function addRow(showAlert = false) {
         count++;
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -217,12 +215,21 @@
             </td>
         `;
         tableBody.appendChild(tr);
+
+        // Tampilkan pesan jika dipicu oleh klik tombol (bukan saat load awal)
+        if (showAlert) {
+            alert("Anda berhasil menambahkan baris tabel.");
+        }
     }
 
     function removeRow() {
         if (count > 2) { 
-            tableBody.removeChild(tableBody.lastChild); 
-            count--; 
+            const yakin = confirm("Apakah Anda yakin ingin menghapus baris terakhir? Data yang sudah diisi di baris tersebut akan hilang.");
+            
+            if (yakin) {
+                tableBody.removeChild(tableBody.lastChild); 
+                count--; 
+            }
         } else { 
             alert("Minimal harus tersisa 2 baris laporan."); 
         }
@@ -248,6 +255,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        // addRow() dipanggil tanpa parameter agar tidak muncul alert saat halaman baru dibuka
         addRow(); addRow(); addRow();
         document.title = `LCS, Nama Penyuluh, ${getTglHariIni()}`;
     });
