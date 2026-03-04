@@ -61,7 +61,12 @@
         }
         .btn-paste:hover { opacity: 1; background: #2980b9; }
 
-        .col-date input[type="date"] { font-size: 12px; text-align: right; }
+        /* PERUBAHAN DISINI: Rata Tengah untuk Tanggal */
+        .col-date input[type="date"] { 
+            font-size: 12px; 
+            text-align: center; 
+        }
+        
         .col-konten textarea { font-size: 12px; padding: 8px; }
 
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
@@ -188,7 +193,6 @@
         }
     }
 
-    // MODIFIKASI: Menambahkan parameter showAlert
     function addRow(showAlert = false) {
         count++;
         const tr = document.createElement('tr');
@@ -198,7 +202,7 @@
             <td data-label="Judul Konten" class="col-konten">
                 <div class="textarea-container">
                     <textarea placeholder="Tuliskan judul konten..."></textarea>
-                    <button type="button" class="btn-paste" onclick="pasteText(this)">📋 PASTE di sini judul konten yg anda salin</button>
+                    <button type="button" class="btn-paste" onclick="pasteText(this)">📋 PASTE judul konten yg anda salin</button>
                 </div>
             </td>
             <td data-label="Like">
@@ -216,7 +220,6 @@
         `;
         tableBody.appendChild(tr);
 
-        // Tampilkan pesan jika dipicu oleh klik tombol (bukan saat load awal)
         if (showAlert) {
             alert("Anda berhasil menambahkan baris tabel.");
         }
@@ -225,7 +228,6 @@
     function removeRow() {
         if (count > 2) { 
             const yakin = confirm("Apakah Anda yakin ingin menghapus baris terakhir? Data yang sudah diisi di baris tersebut akan hilang.");
-            
             if (yakin) {
                 tableBody.removeChild(tableBody.lastChild); 
                 count--; 
@@ -255,7 +257,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        // addRow() dipanggil tanpa parameter agar tidak muncul alert saat halaman baru dibuka
         addRow(); addRow(); addRow();
         document.title = `LCS, Nama Penyuluh, ${getTglHariIni()}`;
     });
