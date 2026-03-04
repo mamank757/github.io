@@ -16,12 +16,13 @@
         .header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 10px; }
         .header h2, .header h3 { margin: 2px 0; text-transform: uppercase; font-size: 1.1rem; font-weight: bold; }
 
+        /* PERUBAHAN DI SINI: Lebar kolom pertama diubah dari 150px ke 200px */
         .info-section { 
             display: grid; 
-            grid-template-columns: 150px 20px 1fr; 
-            gap: 5px 0; 
-            margin-bottom: 15px; 
-            max-width: 600px; 
+            grid-template-columns: 200px 20px 1fr; 
+            gap: 8px 0; 
+            margin-bottom: 20px; 
+            max-width: 700px; /* Sedikit diperlebar agar seimbang */
         }
         .info-section label { font-weight: bold; font-size: 14px; display: flex; align-items: center; }
         
@@ -85,22 +86,9 @@
         }
         .preview-box img { width: 100%; height: 100%; display: none; object-fit: cover; }
 
-        /* Visitor Counter Styling */
-        .visitor-counter {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-        }
-        .visitor-counter div { flex: 1; }
-        .visitor-counter span { display: block; font-size: 20px; font-weight: bold; color: #2c3e50; }
-        .visitor-counter label { font-size: 12px; color: #666; text-transform: uppercase; }
-
         @media screen and (max-width: 768px) {
+            .info-section { grid-template-columns: 1fr; gap: 5px; }
+            .info-section span { display: none; }
             table, thead, tbody, th, td, tr { display: block; }
             table { table-layout: auto; }
             thead { display: none; }
@@ -119,10 +107,10 @@
 
         @media print {
             @page { size: A4; margin: 1cm; }
-            /* Sembunyikan kontrol, tombol, paste, dan visitor counter saat cetak */
-            .controls, .action-area, input[type="file"], .btn-paste, .visitor-counter { display: none !important; }
+            .controls, .action-area, input[type="file"], .btn-paste { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { box-shadow: none; border: none; width: 100%; padding: 0; max-width: 100%; }
+            .info-section { grid-template-columns: 180px 20px 1fr; } /* Penyesuaian saat cetak */
             input, select, textarea { border: none !important; background: transparent !important; padding: 0 !important; appearance: none !important; resize: none !important; }
             table { display: table !important; table-layout: fixed !important; width: 100% !important; }
             thead { display: table-header-group !important; }
@@ -151,9 +139,15 @@
             <option>BULAN JULI</option><option>BULAN AGUSTUS</option><option>BULAN SEPTEMBER</option>
             <option>BULAN OKTOBER</option><option>BULAN NOVEMBER</option><option>BULAN DESEMBER</option>
         </select>
-        <label>NAMA PENYULUH</label> <span>:</span> <input type="text" id="id_nama" placeholder="Cth:ABDUL RAHMAN, SP">
-        <label>NIP.</label> <span>:</span> <input type="text" id="id_nip" placeholder="Cth:199009202020121001" maxlength="21">
-        <label>WILBIN/WKPP</label> <span>:</span> <input type="text" id="id_wilayah" placeholder="Cth:DESA MANURUNG">
+        
+        <label>NAMA PENYULUH</label> <span>:</span> 
+        <input type="text" id="id_nama" placeholder="Cth: ABDUL RAHMAN, SP">
+        
+        <label>NIP.</label> <span>:</span> 
+        <input type="text" id="id_nip" placeholder="Cth: 199009202020121001" maxlength="21">
+        
+        <label>WILBIN/WKPP</label> <span>:</span> 
+        <input type="text" id="id_wilayah" placeholder="Cth: DESA MANURUNG">
     </div>
 
     <table>
@@ -178,17 +172,6 @@
         <button class="btn btn-add" type="button" onclick="addRow(true)">+ Tambah Baris Tabel</button>
     </div>
 
-    <div class="visitor-counter">
-        <div>
-            <label>Pengguna Hari Ini</label>
-            <span id="today-count">0</span>
-        </div>
-        <div>
-            <label>Total Pengguna</label>
-            <span id="total-count">0</span>
-        </div>
-    </div>
-
     <div class="action-area">
         <button class="btn-print" type="button" onclick="cetakLaporan()">SIMPAN/DOWNLOAD PDF</button>
     </div>
@@ -198,31 +181,6 @@
     let count = 0;
     const tableBody = document.getElementById('tableBody');
     const inputNama = document.getElementById('id_nama');
-
-    // Fungsi Hitung Pengunjung
-    function updateVisitorCounter() {
-        const today = new Date().toLocaleDateString();
-        let totalStats = JSON.parse(localStorage.getItem('visitorStats')) || { total: 0, lastDate: '', todayCount: 0 };
-
-        // Tambah total kunjungan keseluruhan
-        totalStats.total++;
-
-        // Cek apakah hari ini sama dengan hari kunjungan terakhir
-        if (totalStats.lastDate === today) {
-            totalStats.todayCount++;
-        } else {
-            // Jika hari baru, reset hitungan hari ini ke 1
-            totalStats.todayCount = 1;
-            totalStats.lastDate = today;
-        }
-
-        // Simpan kembali ke localStorage
-        localStorage.setItem('visitorStats', JSON.stringify(totalStats));
-
-        // Tampilkan di UI
-        document.getElementById('today-count').innerText = totalStats.todayCount;
-        document.getElementById('total-count').innerText = totalStats.total;
-    }
 
     function getTglHariIni() {
         const d = new Date();
@@ -309,7 +267,6 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         addRow(); addRow(); addRow();
-        updateVisitorCounter(); // Jalankan fungsi hitung saat halaman dibuka
         document.title = `LCS, Nama Penyuluh, ${getTglHariIni()}`;
     });
 </script>
