@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>LCS, Tanggal Input, Nama Penyuluh</title>
+    <title>LCS, Tanggal, Nama Penyuluh</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Times New Roman', serif; margin: 0; padding: 10px; background: #000000; }
@@ -48,7 +48,6 @@
             padding-bottom: 40px !important;
         }
 
-        /* Grouping buttons inside textarea */
         .textarea-actions {
             position: absolute;
             bottom: 5px;
@@ -182,8 +181,8 @@
     </table>
 
     <div class="controls">
-        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris Tabel jika hanya 2 konten hari ini </button>
-        <button class="btn btn-add" type="button" onclick="addRow(true)">+ Tambah Baris Tabel jika 4 atau lebih konten hari ini</button>
+        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris</button>
+        <button class="btn btn-add" type="button" onclick="addRow(true)">+ Tambah Baris</button>
     </div>
 
     <div class="action-area">
@@ -196,15 +195,11 @@
     const tableBody = document.getElementById('tableBody');
     const inputNama = document.getElementById('id_nama');
 
+    // Fungsi mendapatkan tanggal hari ini format DD-MM-YYYY
     function getTglHariIni() {
         const d = new Date();
         return `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
     }
-
-    inputNama.addEventListener('input', function() {
-        const namaVal = this.value || "Nama Penyuluh";
-        document.title = `LCS, ${namaVal}, ${getTglHariIni()}`;
-    });
 
     async function pasteText(btn) {
         try {
@@ -212,7 +207,7 @@
             const textarea = btn.closest('.textarea-container').querySelector('textarea');
             textarea.value = text;
         } catch (err) {
-            alert('Anda belum menyalin judul konten.');
+            alert('Gagal menempel teks. Pastikan izin clipboard aktif.');
         }
     }
 
@@ -229,7 +224,7 @@
             <td data-label="Tanggal" class="col-date"><input type="date"></td>
             <td data-label="Judul Konten" class="col-konten">
                 <div class="textarea-container">
-                    <textarea placeholder="Tulis judul konten atau tekan tombol paste jika judul konten sudah disalin...."></textarea>
+                    <textarea placeholder="Tulis atau paste judul konten..."></textarea>
                     <div class="textarea-actions">
                         <button type="button" class="btn-action btn-clear" onclick="clearText(this)">🗑️ Hapus</button>
                         <button type="button" class="btn-action btn-paste" onclick="pasteText(this)">📋 Paste</button>
@@ -250,21 +245,17 @@
             </td>
         `;
         tableBody.appendChild(tr);
-
-        if (showAlert) {
-            alert("Anda berhasil menambahkan baris tabel.");
-        }
+        if (showAlert) alert("Baris berhasil ditambahkan.");
     }
 
     function removeRow() {
         if (count > 2) { 
-            const yakin = confirm("Hapus baris terakhir?");
-            if (yakin) {
+            if (confirm("Hapus baris terakhir?")) {
                 tableBody.removeChild(tableBody.lastChild); 
                 count--; 
             }
         } else { 
-            alert("Minimal harus tersisa 2 baris laporan."); 
+            alert("Minimal harus tersisa 2 baris."); 
         }
     }
 
@@ -281,15 +272,19 @@
         }
     }
 
+    // Fungsi utama untuk mengubah nama file saat cetak
     function cetakLaporan() {
-        const namaVal = inputNama.value || "Penyuluh";
-        document.title = `Laporan_LCS_${namaVal.replace(/\s+/g, '_')}_${getTglHariIni()}`;
+        const namaVal = inputNama.value.trim() || "Nama Penyuluh";
+        const tgl = getTglHariIni();
+        
+        // Mengubah Title Dokumen (Nama file saat Save As PDF)
+        document.title = `LCS, ${tgl}, ${namaVal}`;
+        
         window.print();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
         addRow(); addRow(); addRow();
-        document.title = `LCS, Nama Penyuluh, ${getTglHariIni()}`;
     });
 </script>
 </body>
