@@ -112,9 +112,20 @@
         .action-area { text-align: center; margin-top: 30px; }
         .btn-print { background: #2c3e50; width: 100%; padding: 15px; font-size: 16px; color: white; cursor: pointer; border-radius: 6px; border: none; font-weight: bold; }
 
+        /* Footer Style */
+        .footer {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 8px;
+            color: #333;
+        }
+
         @media print {
             @page { size: A4; margin: 1cm; }
-            .controls, .action-area, input[type="file"], .textarea-actions, .visitor-counter-wrapper { display: none !important; }
+            .controls, .action-area, input[type="file"], .textarea-actions, .visitor-counter-wrapper, .footer { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { box-shadow: none; border: none; width: 100%; padding: 0; max-width: 100%; }
             .info-section { grid-template-columns: 180px 20px 1fr; }
@@ -190,12 +201,15 @@
     </div>
 </div>
 
+<footer class="footer">
+    copyright: King Mamank 2026
+</footer>
+
 <script>
     let count = 0;
     const tableBody = document.getElementById('tableBody');
     const inputNama = document.getElementById('id_nama');
 
-    // Fungsi mendapatkan tanggal hari ini format DD-MM-YYYY
     function getTglHariIni() {
         const d = new Date();
         return `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
@@ -272,14 +286,10 @@
         }
     }
 
-    // Fungsi utama untuk mengubah nama file saat cetak
     function cetakLaporan() {
         const namaVal = inputNama.value.trim() || "Nama Penyuluh";
         const tgl = getTglHariIni();
-        
-        // Mengubah Title Dokumen (Nama file saat Save As PDF)
         document.title = `LCS, ${tgl}, ${namaVal}`;
-        
         window.print();
     }
 
