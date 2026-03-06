@@ -131,7 +131,10 @@
             .info-section { grid-template-columns: 180px 20px 1fr; }
             input, select, textarea { border: none !important; background: transparent !important; padding: 0 !important; appearance: none !important; resize: none !important; }
             table { display: table !important; table-layout: fixed !important; width: 100% !important; }
-            thead { display: table-header-group !important; }
+            
+            /* Pengaturan agar Header tidak muncul di halaman berikutnya */
+            thead { display: table-row-group !important; } 
+            
             tr { display: table-row !important; border: 1px solid #000 !important; page-break-inside: avoid; }
             td { display: table-cell !important; border: 1px solid #000 !important; }
             .preview-box { border: none !important; width: 120px !important; height: 180px !important; }
