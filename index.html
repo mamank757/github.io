@@ -123,8 +123,18 @@
             color: #333;
         }
 
-        @media print {
-            @page { size: A4; margin: 1cm; }
+       @media print {
+    @page { 
+        size: A4; 
+        margin: 1.5cm; /* margin 1,5 cm kanan kiri atas bawah */
+    }
+
+    thead th{
+        background: #00a651 !important; /* hijau */
+        color: #000 !important; /* font hitam */
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
             .controls, .action-area, input[type="file"], .textarea-actions, .visitor-counter-wrapper, .footer { display: none !important; }
             body { background: white; padding: 0; margin: 0; }
             .container { box-shadow: none; border: none; width: 100%; padding: 0; max-width: 100%; }
