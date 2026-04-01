@@ -160,8 +160,8 @@
     </table>
 
     <div class="controls">
-        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris Tabel Jika hanya 2 Konten</button>
-        <button class="btn btn-add" type="button" onclick="addRow(true)">+ Tambah Baris Tabel Jika lebih 3 Konten</button>
+        <button class="btn btn-remove" type="button" onclick="removeRow()">- Hapus Baris Tabel</button>
+        <button class="btn btn-add" type="button" onclick="addRow(true)">+ Tambah Baris Tabel</button>
     </div>
 
     <div class="action-area">
@@ -268,7 +268,7 @@
     }
 
     function removeRow() {
-        if (count > 2) { 
+        if (count > 1) { 
             if (confirm("Hapus baris terakhir?")) {
                 tableBody.removeChild(tableBody.lastChild); 
                 count--; 
